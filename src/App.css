@@ -1,14 +1,81 @@
-.App {
+.app {
   text-align: center;
 }
 
-.App-header {
+.app-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
   color: white;
 }
 
-.App-title {
-  font-size: 1.5em;
+.open-menu-btn {
+  float: left;
+  display: none;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.app-header h1 {
+  margin: 0;
+  padding: 5px;
+}
+
+/* The side navigation menu */
+.side-nav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
+}
+
+/* The navigation menu links */
+.side-nav a {
+  padding: 5px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #f1f1f1;
+  display: block;
+  cursor: pointer;
+}
+
+/* When you mouse over the navigation links, change their color */
+.side-nav a:hover {
+  color: #f1c50d;
+}
+
+/* Position and style the close button (top right corner) */
+.side-nav .close-menu-btn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  display: none;
+}
+
+#map {
+  height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .side-nav .close-menu-btn, .open-menu-btn {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .app-header h1 {
+    font-size: 1.5em;
+  }
+
+  .open-menu-btn {
+    font-size: 1em;
+    padding: 8px;
+  }
 }
