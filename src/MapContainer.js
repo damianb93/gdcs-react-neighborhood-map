@@ -2,27 +2,28 @@ import React, {Component} from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends Component {
-  onMarkerClick = (selectedLocation, activeMarker) => {
-    this.props.openInfoWindow(selectedLocation, activeMarker);
-  };
 
   render() {
-    const { locations } = this.props;
+    const { locations, selectedLocation, showInfoWindow } = this.props;
+    let marker = selectedLocation ? this.refs[selectedLocation].marker : {};
     return (
-      <Map google={this.props.google} center={{lat: 35.6835498, lng: 139.7524473 }} zoom={16}>
-        {locations.map(location => (
+      <Map google={window.google} center={{lat: 35.6835498, lng: 139.7524473 }} zoom={16}>
+        {locations && locations.map(location => (
           <Marker
             key={location.title}
+            ref={location.title}
             title={location.title}
             position={location.position}
-            onClick={this.onMarkerClick}
+            onClick={() => this.props.toggleInfoWindow(location.title, true)}
+            animation={this.props.selectedLocation === location.title ? this.props.google.maps.Animation.BOUNCE : null  }
           />
         ))}
         <InfoWindow
-          marker={this.props.activeMarker}
-          visible={this.props.showInfoWindow}>
+          marker={marker}
+          visible={showInfoWindow}
+          onClose={() => this.props.toggleInfoWindow('', false)}>
           <div>
-            <h3>{this.props.selectedLocation.title}</h3>
+            <h3>{selectedLocation}</h3>
           </div>
         </InfoWindow>
       </Map>
