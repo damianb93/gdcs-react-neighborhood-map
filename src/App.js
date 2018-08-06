@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import SideNav from "./SideNav";
 import MapContainer from "./MapContainer";
@@ -10,6 +10,7 @@ class App extends Component {
     windowWidth: 0,
     query: '',
     selectedLocation: '',
+    infoWindowImgSrc: '',
     showInfoWindow: false,
     locations: [],
     activeLocations: []
@@ -33,12 +34,39 @@ class App extends Component {
   toggleInfoWindow = (selectedLocation, isOpen) => {
     this.setState({
       selectedLocation,
-      showInfoWindow: isOpen
-    })
+      showInfoWindow: isOpen,
+      infoWindowImgSrc: '',
+    });
+
+    if (isOpen) {
+      this.getSelectedLocationImg(selectedLocation);
+    }
   };
 
+  getSelectedLocationImg = (selectedLocation) => {
+    fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&pithumbsize=200&origin=*&titles=${encodeURIComponent(this.getWikiSearchTitle(selectedLocation))}`)
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error('Network error: ' + response.statusText);
+      })
+      .then(response => {
+        const dataPages = response.query.pages;
+        const pageId = Object.keys(dataPages)[0];
+        const imgSrc = dataPages[pageId].thumbnail ? dataPages[pageId].thumbnail.source : '';
+
+        this.setState({infoWindowImgSrc: imgSrc})
+      })
+      .catch(error => {throw new Error('Error: ' + error)});
+  };
+
+  getWikiSearchTitle(selectedLocation) {
+    const location = this.state.locations.find(location => location.title === selectedLocation);
+
+    return location.wikiTitle ? location.wikiTitle : location.title;
+  }
+
   updateWindowWidth = () => {
-    this.setState({ windowWidth: window.innerWidth });
+    this.setState({windowWidth: window.innerWidth});
   };
 
   openNav = () => {
@@ -65,6 +93,7 @@ class App extends Component {
             locations={this.state.activeLocations}
             selectedLocation={this.state.selectedLocation}
             showInfoWindow={this.state.showInfoWindow}
+            infoWindowImgSrc={this.state.infoWindowImgSrc}
             toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
           />
         </main>

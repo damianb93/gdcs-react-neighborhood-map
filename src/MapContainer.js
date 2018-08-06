@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends Component {
-
   state = {
     bounds: {}
   };
@@ -19,14 +18,14 @@ export class MapContainer extends Component {
   };
 
   render() {
-    const { locations, selectedLocation, showInfoWindow } = this.props;
+    const { locations, selectedLocation, showInfoWindow, infoWindowImgSrc } = this.props;
     let marker = selectedLocation ? this.refs[selectedLocation] ? this.refs[selectedLocation].marker : {} : {};
     return (
       <Map
+        style={{marginLeft: this.props.windowWidth > 768 ? '200px' : '0px'}}
         onReady={this.mapOnReadyEventHandler}
         google={this.props.google}
-        center={{lat: 35.6835498, lng: 139.7524473 }}
-        zoom={16}
+        zoom={15}
         bounds={this.state.bounds}>
         {locations && locations.map(location => (
           <Marker
@@ -45,6 +44,7 @@ export class MapContainer extends Component {
           onClose={() => this.props.toggleInfoWindow('', false)}>
           <div>
             <h3>{selectedLocation}</h3>
+            {infoWindowImgSrc && <img src={infoWindowImgSrc} alt={selectedLocation}/>}
           </div>
         </InfoWindow>
       </Map>
