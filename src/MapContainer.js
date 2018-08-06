@@ -6,7 +6,7 @@ export class MapContainer extends Component {
     bounds: {}
   };
 
-  mapOnReadyEventHandler = (mapProps) => {
+  extendMapBounds = (mapProps) => {
     const {google} = mapProps;
     const bounds = new google.maps.LatLngBounds();
 
@@ -23,7 +23,7 @@ export class MapContainer extends Component {
     return (
       <Map
         style={{marginLeft: this.props.windowWidth > 768 ? '200px' : '0px'}}
-        onReady={this.mapOnReadyEventHandler}
+        onReady={this.extendMapBounds}
         google={this.props.google}
         zoom={15}
         bounds={this.state.bounds}>

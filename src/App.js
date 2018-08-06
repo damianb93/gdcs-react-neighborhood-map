@@ -8,17 +8,20 @@ class App extends Component {
 
   state = {
     windowWidth: 0,
-    query: '',
-    selectedLocation: '',
-    infoWindowImgSrc: '',
+    query: '', // Search query
+    selectedLocation: '', // Currently selected marker location title
+    infoWindowImgSrc: '', // Src for location related wikipedia thumbnail
     showInfoWindow: false,
     locations: [],
     activeLocations: []
   };
 
   componentDidMount = () => {
+    // Initialize locations from json
     this.setState({locations: locationsData, activeLocations: locationsData});
+
     this.updateWindowWidth();
+    // Adds event listener to keep track of window current width (used for side-nav related logic)
     window.addEventListener('resize', this.updateWindowWidth);
   };
 
@@ -38,27 +41,42 @@ class App extends Component {
       infoWindowImgSrc: '',
     });
 
+    // If InfoWindow is opened fetch img for location
     if (isOpen) {
       this.getSelectedLocationImg(selectedLocation);
     }
   };
 
+  /**
+   * Fetch image thumbnail from related wikipedia article
+   * @param selectedLocation - currently selected marker location
+   */
   getSelectedLocationImg = (selectedLocation) => {
     fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&pithumbsize=200&origin=*&titles=${encodeURIComponent(this.getWikiSearchTitle(selectedLocation))}`)
       .then(response => {
         if (response.ok) return response.json();
+        alert('Network error: ' + response.statusText);
         throw new Error('Network error: ' + response.statusText);
       })
       .then(response => {
+        // Extract thumbnail source
         const dataPages = response.query.pages;
         const pageId = Object.keys(dataPages)[0];
         const imgSrc = dataPages[pageId].thumbnail ? dataPages[pageId].thumbnail.source : '';
 
         this.setState({infoWindowImgSrc: imgSrc})
       })
-      .catch(error => {throw new Error('Error: ' + error)});
+      .catch(error => {
+        alert('Network error: ' + error);
+        throw new Error('Error: ' + error);
+      });
   };
 
+  /**
+   * Returns wikiTitle property from location if present or else location title.
+   * @param selectedLocation - currently selected marker location
+   * @returns {string}
+   */
   getWikiSearchTitle(selectedLocation) {
     const location = this.state.locations.find(location => location.title === selectedLocation);
 
