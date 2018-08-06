@@ -11,20 +11,22 @@ class App extends Component {
     query: '',
     selectedLocation: '',
     showInfoWindow: false,
-    locations: []
+    locations: [],
+    activeLocations: []
   };
 
   componentDidMount = () => {
-    this.setState({locations: locationsData});
+    this.setState({locations: locationsData, activeLocations: locationsData});
     this.updateWindowWidth();
     window.addEventListener('resize', this.updateWindowWidth);
   };
 
   search = (query) => {
-    if (!query) this.setState({query, locations: locationsData});
+    if (!query) this.setState({query, activeLocations: this.state.locations, showInfoWindow: false});
     else this.setState({
       query,
-      locations: locationsData.filter(location => location.title.toLowerCase().includes(query.toLowerCase().trim()))
+      activeLocations: this.state.locations.filter(location => location.title.toLowerCase().includes(query.toLowerCase().trim())),
+      showInfoWindow: false
     });
   };
 
@@ -55,12 +57,12 @@ class App extends Component {
             windowWidth={this.state.windowWidth}
             search={this.search}
             query={this.state.query}
-            locations={this.state.locations}
+            locations={this.state.activeLocations}
             toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
           />
           <MapContainer
             windowWidth={this.state.windowWidth}
-            locations={this.state.locations}
+            locations={this.state.activeLocations}
             selectedLocation={this.state.selectedLocation}
             showInfoWindow={this.state.showInfoWindow}
             toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}

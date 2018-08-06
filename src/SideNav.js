@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {DebounceInput} from "react-debounce-input";
 
 class SideNav extends Component {
   search = (query) => {
@@ -15,10 +14,9 @@ class SideNav extends Component {
     return (
       <nav className="side-nav" style={{display: this.props.windowWidth > 768 ? 'block' : 'none'}}>
         <a className="close-menu-btn" onClick={() => this.closeNav()}>&times;</a>
-        <DebounceInput
+        <input
           type="text"
           placeholder="Filter markers"
-          debounceTimeout={300}
           value={query}
           onChange={event => this.search(event.target.value)}
         />
