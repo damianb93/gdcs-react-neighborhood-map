@@ -65,7 +65,8 @@ class App extends Component {
         const pageId = Object.keys(dataPages)[0];
         const imgSrc = dataPages[pageId].thumbnail ? dataPages[pageId].thumbnail.source : '';
 
-        this.setState({infoWindowImgSrc: imgSrc})
+        this.setState({infoWindowImgSrc: imgSrc});
+        setTimeout(function() { document.querySelector('.info-window h3').focus() }, 0);
       })
       .catch(error => {
         alert('Error: ' + error);
@@ -97,7 +98,7 @@ class App extends Component {
       <div className="app">
         <main>
           <header className="app-header">
-            <a className="open-menu-btn" onClick={() => this.openNav()}>&#9776;</a>
+            <a className="open-menu-btn" onClick={() => this.openNav()} aria-label='Menu open icon'>&#9776;</a>
             <h1>Neighborhood Map</h1>
           </header>
           <SideNav
@@ -107,7 +108,7 @@ class App extends Component {
             locations={this.state.activeLocations}
             toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
           />
-          <div className="map-container">
+          <div className="map-container" role='application'>
             <MapContainer
               windowWidth={this.state.windowWidth}
               locations={this.state.activeLocations}

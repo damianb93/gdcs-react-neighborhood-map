@@ -47,14 +47,15 @@ export class MapContainer extends Component {
           marker={marker}
           visible={showInfoWindow}
           onClose={() => this.props.toggleInfoWindow('', false)}>
-          <div>
-            <h3>{selectedLocation}</h3>
-            {infoWindowImgSrc && <img src={infoWindowImgSrc} alt={selectedLocation}/>}
+          <div className="info-window" aria-label={`${selectedLocation} info window`}>
+            <h3 tabIndex="0">{selectedLocation}</h3>
+            {infoWindowImgSrc && <img src={infoWindowImgSrc} alt={selectedLocation} tabIndex="0"/>}
             {infoWindowImgSrc &&
             <div><em>Image from <a href={wikiLink} rel="noopener noreferrer"
-                                   target="_blank">Wikipedia</a> </em></div>}
+                                   target="_blank" tabIndex="0">Wikipedia</a> </em></div>}
             {!infoWindowImgSrc && <div>Error occurred, image couldn't be loaded</div>}
           </div>
+
         </InfoWindow>
       </Map>
     );
