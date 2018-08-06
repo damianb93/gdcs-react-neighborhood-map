@@ -18,8 +18,10 @@ export class MapContainer extends Component {
   };
 
   render() {
-    const { locations, selectedLocation, showInfoWindow, infoWindowImgSrc } = this.props;
-    let marker = selectedLocation ? this.refs[selectedLocation] ? this.refs[selectedLocation].marker : {} : {};
+    const {locations, selectedLocation, showInfoWindow, infoWindowImgSrc} = this.props;
+    const marker = selectedLocation ? this.refs[selectedLocation] ? this.refs[selectedLocation].marker : {} : {};
+    const location = locations.find(location => location.title === selectedLocation);
+    const wikiLink =  `https://en.wikipedia.org/wiki/${(location ? location.wikiTitle ? location.wikiTitle : location.title : 'Main Page').replace(/ /g, '_')}`;
     return (
       <Map
         style={{marginLeft: this.props.windowWidth > 768 ? '200px' : '0px'}}
@@ -34,7 +36,10 @@ export class MapContainer extends Component {
             title={location.title}
             position={location.position}
             onClick={() => this.props.toggleInfoWindow(location.title, true)}
-            icon={{ url: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/128/map-marker-icon.png', scaledSize: new this.props.google.maps.Size(40, 40)}}
+            icon={{
+              url: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/128/map-marker-icon.png',
+              scaledSize: new this.props.google.maps.Size(40, 40)
+            }}
             animation={this.props.selectedLocation === location.title ? this.props.google.maps.Animation.BOUNCE : null}
           />
         ))}
@@ -45,6 +50,10 @@ export class MapContainer extends Component {
           <div>
             <h3>{selectedLocation}</h3>
             {infoWindowImgSrc && <img src={infoWindowImgSrc} alt={selectedLocation}/>}
+            {infoWindowImgSrc &&
+            <div><em>Image from <a href={wikiLink} rel="noopener noreferrer"
+                                   target="_blank">Wikipedia</a> </em></div>}
+            {!infoWindowImgSrc && <div>Error occurred, image couldn't be loaded</div>}
           </div>
         </InfoWindow>
       </Map>

@@ -55,6 +55,7 @@ class App extends Component {
     fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&pithumbsize=200&origin=*&titles=${encodeURIComponent(this.getWikiSearchTitle(selectedLocation))}`)
       .then(response => {
         if (response.ok) return response.json();
+
         alert('Network error: ' + response.statusText);
         throw new Error('Network error: ' + response.statusText);
       })
@@ -67,7 +68,7 @@ class App extends Component {
         this.setState({infoWindowImgSrc: imgSrc})
       })
       .catch(error => {
-        alert('Network error: ' + error);
+        alert('Error: ' + error);
         throw new Error('Error: ' + error);
       });
   };
