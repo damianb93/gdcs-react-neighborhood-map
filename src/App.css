@@ -45,6 +45,7 @@
   margin-left: 50px;
   display: none;
   color: white;
+  cursor: pointer;
 }
 
 .side-nav h2 {
