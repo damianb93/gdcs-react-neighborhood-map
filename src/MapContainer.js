@@ -53,7 +53,7 @@ export class MapContainer extends Component {
             {infoWindowImgSrc &&
             <div><em>Image from <a href={wikiLink} rel="noopener noreferrer"
                                    target="_blank" tabIndex="0">Wikipedia</a> </em></div>}
-            {!infoWindowImgSrc && <div>Error occurred, image couldn't be loaded</div>}
+            {!infoWindowImgSrc && <div>Loading...</div>}
           </div>
 
         </InfoWindow>
