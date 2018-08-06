@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import './App.css';
+import './css/App.css';
 import SideNav from "./SideNav";
 import MapContainer from "./MapContainer";
-import * as locationsData from './locations';
+import * as locationsData from '../data/locations';
 
 class App extends Component {
 
@@ -30,7 +30,8 @@ class App extends Component {
     else this.setState({
       query,
       activeLocations: this.state.locations.filter(location => location.title.toLowerCase().includes(query.toLowerCase().trim())),
-      showInfoWindow: false
+      showInfoWindow: false,
+      selectedLocation: ''
     });
   };
 
