@@ -107,14 +107,16 @@ class App extends Component {
             locations={this.state.activeLocations}
             toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
           />
-          <MapContainer
-            windowWidth={this.state.windowWidth}
-            locations={this.state.activeLocations}
-            selectedLocation={this.state.selectedLocation}
-            showInfoWindow={this.state.showInfoWindow}
-            infoWindowImgSrc={this.state.infoWindowImgSrc}
-            toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
-          />
+          <div className="map-container">
+            <MapContainer
+              windowWidth={this.state.windowWidth}
+              locations={this.state.activeLocations}
+              selectedLocation={this.state.selectedLocation}
+              showInfoWindow={this.state.showInfoWindow}
+              infoWindowImgSrc={this.state.infoWindowImgSrc}
+              toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
+            />
+          </div>
         </main>
       </div>
     );

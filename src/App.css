@@ -5,6 +5,16 @@
 .app-header {
   background-color: #222;
   color: white;
+  height: 5vh;
+}
+
+.map-container > * > * {
+  height: 95vh !important;
+}
+
+.app-header h1 {
+  margin: 0;
+  padding: 5px;
 }
 
 .open-menu-btn {
@@ -16,12 +26,6 @@
   cursor: pointer;
 }
 
-.app-header h1 {
-  margin: 0;
-  padding: 5px;
-}
-
-/* The side navigation menu */
 .side-nav {
   height: 100%;
   width: 200px;
@@ -31,11 +35,32 @@
   left: 0;
   background-color: #111;
   overflow-x: hidden;
-  padding-top: 60px;
 }
 
-/* The navigation menu links */
-.side-nav a {
+.side-nav .close-menu-btn {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 36px;
+  margin-left: 50px;
+  display: none;
+  color: white;
+}
+
+.side-nav h2 {
+  color: white;
+}
+
+.search-field {
+  margin: 10px;
+}
+
+.links {
+  margin: 10px;
+}
+
+.links a {
+  text-align: left;
   padding: 5px;
   text-decoration: none;
   font-size: 20px;
@@ -43,24 +68,9 @@
   display: block;
   cursor: pointer;
 }
-
-/* When you mouse over the navigation links, change their color */
-.side-nav a:hover {
-  color: #f1c50d;
-}
-
-/* Position and style the close button (top right corner) */
-.side-nav .close-menu-btn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-  display: none;
-}
-
-#map {
-  height: 100%;
+.links a:hover {
+  /*color: #f1c50d;*/
+  background-color: rgba(255, 241, 0, 0.5);
 }
 
 @media screen and (max-width: 768px) {

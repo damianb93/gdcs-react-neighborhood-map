@@ -14,16 +14,20 @@ class SideNav extends Component {
     return (
       <nav className="side-nav" style={{display: this.props.windowWidth > 768 ? 'block' : 'none'}}>
         <a className="close-menu-btn" onClick={() => this.closeNav()}>&times;</a>
+        <h2>Search</h2>
         <input
+          className="search-field"
           type="text"
           placeholder="Filter markers"
           value={query}
           onChange={event => this.search(event.target.value)}
         />
-        {locations && locations.map((location, index) => (
-          <a key={index} onClick={() => this.props.toggleInfoWindow(location.title, true)} >{location.title}</a>
-        ))
-        }
+        <div className="links">
+          {locations && locations.map((location, index) => (
+            <a key={index} onClick={() => this.props.toggleInfoWindow(location.title, true)} >{location.title}</a>
+          ))
+          }
+        </div>
       </nav>
     )
   }
