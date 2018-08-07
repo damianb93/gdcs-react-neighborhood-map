@@ -11,6 +11,7 @@ class App extends Component {
     query: '', // Search query
     selectedLocation: '', // Currently selected marker location title
     infoWindowImgSrc: '', // Src for location related wikipedia thumbnail
+    infoWindowWikiMsg: '',
     showInfoWindow: false,
     locations: [],
     activeLocations: []
@@ -53,12 +54,13 @@ class App extends Component {
    * @param selectedLocation - currently selected marker location
    */
   getSelectedLocationImg = (selectedLocation) => {
+    this.setState({infoWindowWikiMsg: 'loading...'});
     fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&pithumbsize=200&origin=*&titles=${encodeURIComponent(this.getWikiSearchTitle(selectedLocation))}`)
       .then(response => {
         if (response.ok) return response.json();
 
         alert('Network error: ' + response.statusText);
-        throw new Error('Network error: ' + response.statusText);
+        this.setState({infoWindowWikiMsg: `Error! Couldn't load image.`});
       })
       .then(response => {
         // Extract thumbnail source
@@ -66,12 +68,14 @@ class App extends Component {
         const pageId = Object.keys(dataPages)[0];
         const imgSrc = dataPages[pageId].thumbnail ? dataPages[pageId].thumbnail.source : '';
 
+        if (!imgSrc) this.setState({infoWindowWikiMsg: `Error! Couldn't load image.`});
+
         this.setState({infoWindowImgSrc: imgSrc});
         setTimeout(function() { document.querySelector('.info-window h3').focus() }, 0);
       })
       .catch(error => {
-        alert('Error: ' + error);
-        throw new Error('Error: ' + error);
+        alert('Error occurred while fetching data from Wikipedia. Error message: ' + error);
+        this.setState({infoWindowWikiMsg: `Error! Couldn't load image.`});
       });
   };
 
@@ -90,6 +94,7 @@ class App extends Component {
     this.setState({windowWidth: window.innerWidth});
   };
 
+  // Opens side navigation panel
   openNav = () => {
     document.querySelector(".side-nav").style.display = 'block';
   };
@@ -116,6 +121,7 @@ class App extends Component {
               selectedLocation={this.state.selectedLocation}
               showInfoWindow={this.state.showInfoWindow}
               infoWindowImgSrc={this.state.infoWindowImgSrc}
+              infoWindowWikiMsg={this.state.infoWindowWikiMsg}
               toggleInfoWindow={(location, isOpen) => this.toggleInfoWindow(location, isOpen)}
             />
           </div>

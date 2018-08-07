@@ -5,6 +5,7 @@ class SideNav extends Component {
     this.props.search(query);
   };
 
+  // Closes side navigation panel
   closeNav = () => {
     document.querySelector(".side-nav").style.display = 'none';
   };

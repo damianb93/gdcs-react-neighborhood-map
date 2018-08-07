@@ -18,7 +18,7 @@ export class MapContainer extends Component {
   };
 
   render() {
-    const {locations, selectedLocation, showInfoWindow, infoWindowImgSrc} = this.props;
+    const {locations, selectedLocation, showInfoWindow, infoWindowImgSrc, infoWindowWikiMsg} = this.props;
     const marker = selectedLocation ? this.refs[selectedLocation] ? this.refs[selectedLocation].marker : {} : {};
     const location = locations.find(location => location.title === selectedLocation);
     const wikiLink =  `https://en.wikipedia.org/wiki/${(location ? location.wikiTitle ? location.wikiTitle : location.title : 'Main Page').replace(/ /g, '_')}`;
@@ -53,7 +53,7 @@ export class MapContainer extends Component {
             {infoWindowImgSrc &&
             <div><em>Image from <a href={wikiLink} rel="noopener noreferrer"
                                    target="_blank" tabIndex="0">Wikipedia</a> </em></div>}
-            {!infoWindowImgSrc && <div>Loading...</div>}
+            {!infoWindowImgSrc && <div>{infoWindowWikiMsg}</div>}
           </div>
 
         </InfoWindow>
